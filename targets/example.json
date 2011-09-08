@@ -1,0 +1,6 @@
+{
+    "name": "Example Host",
+    "ip": "10.0.0.3",
+    "services": [ "http" ],
+    "http": { "port": 80, "text": "Hello World" }
+}
