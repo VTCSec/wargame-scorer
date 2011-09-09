@@ -34,7 +34,7 @@ Each target will have a set of services required to be up in order to receive
 down completely. It also simulates the real world where machines have specific
 functions that must function.
 
-**Specification**
+*Specification*
 
 Targets are specified in JSON and loaded by the scorer.
 
