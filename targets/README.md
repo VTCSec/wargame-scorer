@@ -9,7 +9,7 @@ to operate on the target.
 The following metadata is required:
 
  * name: the name of the target (displayed on the scoreboard)
- * ip: the ip address of the target
+ * host: the hostname or ip of the target
  * services: a list of service names that are active on this target
 
  Additionally, some services require additional settings (e.g., port
@@ -20,7 +20,7 @@ The following metadata is required:
 
     {
         "name": "Example Host",
-        "ip": "10.0.0.3",
+        "host": "10.0.0.3",
         "services": [ "http" ],
         "http": { "port": 80, "text": "Hello World" }
     }
