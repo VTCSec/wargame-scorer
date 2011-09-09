@@ -42,7 +42,9 @@ def check_scores():
     print "checking scores..."
     reactor.callLater(5, check_scores)
 
-reactor.callLater(5, check_scores)
-reactor.listenTCP( 8080, site )
-reactor.run()
+
+if __name__ == '__main__':
+    reactor.callLater(5, check_scores)
+    reactor.listenTCP( 8080, site )
+    reactor.run()
 
