@@ -1,4 +1,3 @@
-#!/usr/bin/env python2
 # Copyright (c) 2011, Casey Link <unnamedrambler@gmail.com>
 # All rights reserved.
 #
@@ -24,34 +23,38 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from twisted.web.wsgi import WSGIResource
-from twisted.web.server import Site
-from twisted.internet import reactor
-from flask import Flask, render_template, g
+from twisted.internet import protocol
+import pickle
+import logging
 
-import targets, controller
+import targets
 
-app = Flask(__name__)
+command = "./worker.py"
 
-@app.route("/")
-def index():
-    return "Hello World!"
+class ServiceProtocol(protocol.ProcessProtocol):
 
-resource = WSGIResource(reactor, reactor.getThreadPool(), app)
-site = Site(resource)
+    def __init__(self, target):
+        self.target = target
+        self.data = ''
+        self.err_data = ''
 
-all_targets = targets.load_targets()
+    def connectionMade(self):
+        self.transport.write( pickle.dumps(self.target) )
+        self.transport.closeStdin()
 
-def check_scores():
-    print "checking scores..."
-    for target in all_targets:
-        prot = controller.ServiceProtocol(target)
-        reactor.spawnProcess(prot, controller.command, [controller.command], {})
-    reactor.callLater(5, check_scores)
+    def outReceived(self, data):
+        self.data += data
 
+    def errReceived(self, data):
+        self.err_data  += data
 
-if __name__ == '__main__':
-    reactor.callLater(1, check_scores)
-    reactor.listenTCP( 8080, site )
-    reactor.run()
+    def outConnectionLost(self):
+        pass
+
+    def processExited(self, reason):
+        logging.info("Output: " + self.data)
+        logging.info("Errors: " + self.err_data)
+        status = reason.value.exitCode
+        pass
+
 

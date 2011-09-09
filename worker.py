@@ -24,34 +24,16 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from twisted.web.wsgi import WSGIResource
-from twisted.web.server import Site
-from twisted.internet import reactor
-from flask import Flask, render_template, g
+import sys
+import pickle
+import targets
 
-import targets, controller
+def main():
+    target = pickle.loads( sys.stdin.read() )
 
-app = Flask(__name__)
+    print "Processing %s" % target.name
 
-@app.route("/")
-def index():
-    return "Hello World!"
-
-resource = WSGIResource(reactor, reactor.getThreadPool(), app)
-site = Site(resource)
-
-all_targets = targets.load_targets()
-
-def check_scores():
-    print "checking scores..."
-    for target in all_targets:
-        prot = controller.ServiceProtocol(target)
-        reactor.spawnProcess(prot, controller.command, [controller.command], {})
-    reactor.callLater(5, check_scores)
-
+    return 0
 
 if __name__ == '__main__':
-    reactor.callLater(1, check_scores)
-    reactor.listenTCP( 8080, site )
-    reactor.run()
-
+    main()
