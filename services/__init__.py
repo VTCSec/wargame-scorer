@@ -24,5 +24,17 @@ class PluginMount(type):
             cls.plugins.append(cls)
 
 class Service:
+    """
+    The constructor is passed a dictionary containing the configuration
+    options for the service
+    """
     __metaclass__ = PluginMount
+
+    def verify_up(self):
+        """Returns a boolean representing whether the service is up or not"""
+        pass
+
+    def owner(self):
+        """Returns a string containing the name of the owning team/player"""
+        pass
 
