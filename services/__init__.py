@@ -23,10 +23,20 @@ class PluginMount(type):
             # track of it later.
             cls.plugins.append(cls)
 
+    def get_plugin(cls, name):
+        """Get an new plugin by name"""
+        for p in cls.plugins:
+            if p.name == name:
+                return p
+        return None
+
+
 class Service:
     """
     The constructor is passed a dictionary containing the configuration
-    options for the service
+    options for the service.
+
+    All Services must specify the 'name' attribute.
     """
     __metaclass__ = PluginMount
 
