@@ -43,18 +43,24 @@ The following metadata is required:
 
  * `name`: the name of the target (displayed on the scoreboard)
  * `host`: the hostname or ip of the target
- * `services`: a list of service names that are active on this target
+ * `services`: a list of service JSON objects that are active on this target
 
- Additionally, some services require additional settings (e.g., port
- information, SSH keys, text to parse, etc). These options should be included
- as a JSON object in the specification with the service name as the key.
+The service JSON struct should contain the following keys:
+
+ * `service`: the name of the service (required)
+ * `value`: the point value of this service (required)
+ * `optional`: whether the service is an optional service (default: false)
+
+Additionally, some services require additional settings (e.g., port,
+SSH keys, text to parse, etc). These options should be included as a JSON
+object in the specification with the service name as the key.
 
  Example:
 
     {
         "name": "Example Host",
         "host": "10.0.0.3",
-        "services": [ "http" ],
+        "services": [ {"service": "http", "optional": false, "value": 5} ],
         "http": { "port": 80, "text": "Hello World" }
     }
 

@@ -1,6 +1,6 @@
 {
     "name": "Example Host",
     "host": "example.com",
-    "services": [ "http" ],
+    "services": [ {"service": "http", "optional": false, "value": 5} ],
     "http": { "port": 80, "text": "Hello World" }
 }
