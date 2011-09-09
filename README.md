@@ -20,10 +20,8 @@ compromises a service but does not root the box (defacing a website for
 example).
 
 This scoring system is designed to be run as a daemon on the private network
-with the hosts.
-
-It provides a simple API so clients (e.g., a scoreboard) can get live
-information about the game.
+with the hosts. It provides a simple API so clients (e.g., a scoreboard) can get 
+live information about the game.
 
 
 Targets
@@ -34,7 +32,7 @@ Each target will have a set of services required to be up in order to receive
 down completely. It also simulates the real world where machines have specific
 functions that must function.
 
-*Specification*
+**Specification**
 
 Targets are specified in JSON and loaded by the scorer.
 
@@ -43,9 +41,9 @@ to operate on the target.
 
 The following metadata is required:
 
- * name: the name of the target (displayed on the scoreboard)
- * host: the hostname or ip of the target
- * services: a list of service names that are active on this target
+ * `name`: the name of the target (displayed on the scoreboard)
+ * `host`: the hostname or ip of the target
+ * `services`: a list of service names that are active on this target
 
  Additionally, some services require additional settings (e.g., port
  information, SSH keys, text to parse, etc). These options should be included
@@ -77,7 +75,7 @@ Some examples of possible service verifiers are:
 4. An ssh service that verifiers an sshd is running on the host
 
 Place service verifiers in the services/ directory. They should subclass the
-Service type (see services/__init__.py). They should implement the
+Service type (see `services/__init__.py`). They should implement the
 `verify_up()` and `owner` methods.
 
 Service modules are passed a configuration dictionary that will consist of
@@ -89,9 +87,9 @@ TODO: ssh keys for authentication?
 Modules
 -------
 
-services/ - contains the service verifiers
+`services/` - contains the service verifiers
             To run the tests cd to the services dir and run `nosetests tests/`
 
-targets/ - contains json descriptions of the services
+`targets/` - contains json descriptions of the services
 
 
