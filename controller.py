@@ -24,6 +24,7 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from twisted.internet import protocol
+from twisted.internet import reactor
 import pickle
 import logging
 
@@ -60,4 +61,9 @@ class ServiceProtocol(protocol.ProcessProtocol):
             response = pickle.loads(self.data)
             # TODO impl
 
+def check_scores(all_targets):
+    print "checking scores..."
+    for target in all_targets:
+        prot = ServiceProtocol(target)
+        reactor.spawnProcess(prot, command, [command], {})
 

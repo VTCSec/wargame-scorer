@@ -42,16 +42,12 @@ site = Site(resource)
 
 all_targets = targets.load_targets()
 
-def check_scores():
-    print "checking scores..."
-    for target in all_targets:
-        prot = controller.ServiceProtocol(target)
-        reactor.spawnProcess(prot, controller.command, [controller.command], {})
-    reactor.callLater(5, check_scores)
-
+def run_tick():
+    controller.check_scores(all_targets)
+    reactor.callLater(5, run_tick)
 
 if __name__ == '__main__':
-    reactor.callLater(1, check_scores)
+    reactor.callLater(1, run_tick)
     reactor.listenTCP( 8080, site )
     reactor.run()
 
