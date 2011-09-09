@@ -4,7 +4,11 @@ import urllib2
 import logging
 import re
 
-class HttpService(object):
+from . import Service
+
+class HttpService(Service):
+
+    name = 'http'
 
     def __init__(self, config):
         self.config = config

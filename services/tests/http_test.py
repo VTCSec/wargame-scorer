@@ -3,6 +3,7 @@ import urllib2
 from StringIO import StringIO
 
 from services import http
+from services import Service
 
 def mock_response(req):
     if req.get_full_url() == "http://example.com":
@@ -32,3 +33,6 @@ def http_test():
     h = http.HttpService(config)
     assert h.verify_up()
     assert h.owner() == "Dude"
+
+def services_test():
+    assert 'http' in [p.name for p in Service.plugins]
