@@ -65,6 +65,14 @@ class Target(object):
             logging.info("Plugin %s: loaded service %s" % (self.name, name))
             self.services.append( {'plugin': plugin, 'optional': optional, 'value': value, 'config': service_config } )
 
+class CheckResponse(object):
+    def __init__(self, target):
+        self.target = target
+        self.service_checks = {}
+
+        for service in target.services:
+            self.service_checks[service.plugin.name] = { 'up': False, 'owner': None }
+
 
 def load_targets(dir = './targets'):
     """

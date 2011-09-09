@@ -31,8 +31,24 @@ import targets
 def main():
     target = pickle.loads( sys.stdin.read() )
 
-    print "Processing %s" % target.name
+    response = CheckResponse(target)
 
+    for service in target.services:
+        plugin = service['plugin']
+        config = service['config']
+
+        result = response.service_checks[plugin.name]
+
+        verifier = plugin(config)
+        if verifier.verify_up():
+            result['owner'] = verifier.owner()
+            result['up'] = True
+        else:
+            result['up'] = False
+
+        response.service_checks[plugin.name] = result
+
+    print pickle.dumps(response)
     return 0
 
 if __name__ == '__main__':

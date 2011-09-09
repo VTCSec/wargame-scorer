@@ -49,12 +49,15 @@ class ServiceProtocol(protocol.ProcessProtocol):
         self.err_data  += data
 
     def outConnectionLost(self):
+        # TODO impl
         pass
 
     def processExited(self, reason):
         logging.info("Output: " + self.data)
         logging.info("Errors: " + self.err_data)
         status = reason.value.exitCode
-        pass
+        if status == 0:
+            response = pickle.loads(self.data)
+            # TODO impl
 
 
